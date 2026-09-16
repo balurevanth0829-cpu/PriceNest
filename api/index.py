@@ -7,6 +7,8 @@ import pickle
 import uvicorn
 import os
 
+import os
+
 app = FastAPI()
 
 app.add_middleware(
@@ -18,10 +20,11 @@ app.add_middleware(
 )
 
 # Load model and columns
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 try:
-    with open('model.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'model.pkl'), 'rb') as f:
         model = pickle.load(f)
-    with open('model_columns.pkl', 'rb') as f:
+    with open(os.path.join(BASE_DIR, 'model_columns.pkl'), 'rb') as f:
         model_columns = pickle.load(f)
 except FileNotFoundError:
     print("Model files not found. Please run main.py first.")
@@ -38,7 +41,7 @@ class PropertyDetails(BaseModel):
     median_income: float
     ocean_proximity: str
 
-@app.post("/predict")
+@app.post("/api/predict")
 def predict_price(details: PropertyDetails):
     # Convert input to DataFrame
     df = pd.DataFrame([details.dict()])

@@ -10,6 +10,3 @@ dependencies = [
     "scikit-learn",
     "pydantic"
 ]
-
-[tool.vercel]
-entrypoint = "api:app"
